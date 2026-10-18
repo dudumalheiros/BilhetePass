@@ -15,9 +15,13 @@ Projeto da disciplina **Requisitos, Projeto de Software e Validação** — CESA
 
 ## Equipe
 
-| Integrante | E-mail |
-|---|---|
-| Eduardo Malheiros | emlj@cesar.school |
+| Integrante | E-mail | Funcionalidades |
+|---|---|---|
+| Lucas Souto | *(falta)* | Venda de ingressos · Check-in de participantes |
+| Eduardo Malheiros | emlj@cesar.school | Transferência nominal de ingresso · Meia-entrada: benefício e cota |
+| Victor Vilela | vmv2@cesar.school | Publicação e configuração do evento · Gestão de cupons |
+| George Filho | gdpf@cesar.school | Pagamento do pedido · Cancelamento e reembolso |
+| Caio Fonseca | cmaf@cesar.school | Emissão e entrega do ingresso · Fila de espera e reserva |
 
 ## Tecnologias
 
