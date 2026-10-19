@@ -1,5 +1,7 @@
 # Histórias de usuário — BilhetePass
 
+33 histórias, organizadas em 3 atividades e 11 tarefas.
+
 Formato: **Como `<papel>`, quero `<ação>`, para `<benefício>`**.
 A coluna indica a posição no [mapa da história do usuário](mapa/).
 R1 = primeira release (o fluxo completo, fino). R2 = profundidade.
@@ -15,6 +17,12 @@ Papéis do domínio: **organizador**, **visitante**, **comprador**, **participan
 | H01 | R1 | Como **organizador**, quero **cadastrar um evento com data, local e descrição**, para **que ele possa receber ingressos à venda**. |
 | H02 | R1 | Como **organizador**, quero **criar tipos de ingresso divididos em lotes com preço, quantidade e vigência**, para **vender mais barato no começo e aumentar o preço conforme o evento se aproxima**. |
 | H03 | R2 | Como **organizador**, quero **criar cupons de desconto percentual ou de valor fixo, com validade e limite de usos**, para **fazer campanhas sem baixar o preço de tabela**. |
+| H28 | R2 | Como **organizador**, quero **editar um evento já publicado**, para **corrigir data, local ou descrição sem precisar recriar tudo**. |
+| H29 | R2 | Como **organizador**, quero **duplicar um evento de uma edição anterior**, para **não reconfigurar tipos e lotes a cada ano**. |
+| H30 | R2 | Como **organizador**, quero **desativar um cupom**, para **encerrar uma campanha antes do prazo previsto**. |
+| H31 | R2 | Como **organizador**, quero **acompanhar o uso dos meus cupons**, para **saber qual campanha converteu melhor**. |
+| H32 | R2 | Como **organizador**, quero **ver as vendas do evento em tempo real**, para **decidir se abro um novo lote**. |
+| H33 | R2 | Como **organizador**, quero **exportar o relatório de presença**, para **prestar contas aos patrocinadores do evento**. |
 | H04 | R2 | Como **organizador**, quero **definir qual percentual de cada lote pode ser vendido como meia-entrada**, para **cumprir a lei sem comprometer a receita do evento**. |
 
 ## Coluna 2 — Descobrir o evento · visitante
