@@ -1,0 +1,436 @@
+<title>BilhetePass Navegável</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<style>
+:root{
+  --p:#6B5CF0;--pd:#5A4AD8;--pl:#EFECFE;--pxl:#F7F5FF;
+  --bg:#F7F8FC;--card:#FFF;--bd:#E8EAF2;--bd2:#F0F1F7;
+  --t1:#1A1B2E;--t2:#5A5C73;--t3:#9093A8;
+  --ok:#17A673;--okl:#E6F7F0;--er:#E0405A;--erl:#FDECEF;--wn:#D98A12;--wnl:#FDF4E4;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--t1);font-family:Inter,system-ui,sans-serif;
+ font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
+.scr{display:none}.scr.on{display:block}
+.nav{background:#fff;border-bottom:1px solid var(--bd);padding:0 34px;height:62px;
+ display:flex;align-items:center;gap:34px;position:sticky;top:0;z-index:20}
+.logo{display:flex;align-items:center;gap:9px;font-weight:800;font-size:16.5px;letter-spacing:-.02em}
+.logo .mk{width:26px;height:26px;border-radius:7px;background:var(--p);display:flex;
+ align-items:center;justify-content:center;color:#fff;font-size:12px}
+.logo .pp{color:var(--p)}
+.nav .lk{display:flex;gap:26px;font-size:13.5px;color:var(--t2);font-weight:500}
+.nav .rt{margin-left:auto;display:flex;align-items:center;gap:14px;color:var(--t3)}
+.av{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#8B7CF8,#5A4AD8)}
+.nm{font-size:13.5px;color:var(--t1);font-weight:500}
+.body{padding:28px 34px 50px;max-width:1240px;margin:0 auto}
+.back{font-size:13px;color:var(--p);font-weight:500;margin:0 0 20px;cursor:pointer;display:inline-block}
+.steps{display:flex;align-items:center;gap:12px;margin:0 0 28px}
+.st{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--t3);font-weight:500}
+.st .n{width:21px;height:21px;border-radius:50%;background:#E6E7F0;color:var(--t3);
+ display:flex;align-items:center;justify-content:center;font-size:11.5px;font-weight:600}
+.st.on .n,.st.dn .n{background:var(--p);color:#fff}.st.on,.st.dn{color:var(--t1)}
+.ln{width:58px;height:1px;background:var(--bd)}
+h1.pg{font-size:30px;font-weight:800;letter-spacing:-.025em;margin:0 0 6px}
+p.sub{font-size:14px;color:var(--t2);margin:0 0 24px}
+.cols{display:grid;grid-template-columns:1fr 352px;gap:26px;align-items:start}
+@media(max-width:900px){.cols{grid-template-columns:1fr}.nav .lk{display:none}.body{padding:20px}}
+.cd{background:var(--card);border:1px solid var(--bd);border-radius:11px;padding:22px 24px;margin-bottom:14px}
+h3{font-size:16px;font-weight:700;margin:0 0 4px;letter-spacing:-.01em}
+.mut{font-size:13px;color:var(--t2)}.sm{font-size:12px;color:var(--t3)}
+.pill{display:inline-block;font-size:9.5px;font-weight:700;letter-spacing:.06em;
+ text-transform:uppercase;padding:3px 7px;border-radius:4px;vertical-align:middle}
+.pill.lote{background:var(--pl);color:var(--pd)}.pill.ok{background:var(--okl);color:var(--ok)}
+.pill.er{background:var(--erl);color:var(--er)}.pill.wn{background:var(--wnl);color:var(--wn)}
+.btn{display:inline-block;text-align:center;background:var(--p);color:#fff;font-size:14.5px;
+ font-weight:600;padding:12px 20px;border-radius:9px;cursor:pointer;border:none;font-family:inherit}
+.btn:hover{background:var(--pd)}.btn.full{display:block;width:100%}
+.btn.gh{background:#fff;color:var(--p);border:1.5px solid var(--p)}
+.btn.gr{background:#F2F3F8;color:var(--t2);border:1px solid var(--bd)}
+.btn.sm{padding:8px 14px;font-size:13px}
+.btn:disabled{background:#E6E7F0;color:var(--t3);cursor:not-allowed}
+.btn.dang{background:var(--er)}
+.hero{height:230px;border-radius:0;background:linear-gradient(135deg,#4C2B8F,#B5379B 50%,#E88A3C);
+ display:flex;flex-direction:column;justify-content:flex-end;padding:28px 34px;color:#fff}
+.hero h2{font-size:34px;font-weight:800;margin:0 0 10px;letter-spacing:-.02em}
+.hero .tags{display:flex;gap:10px;flex-wrap:wrap;font-size:12.5px}
+.hero .tags span{background:rgba(255,255,255,.18);padding:5px 11px;border-radius:6px}
+.tk{border:1.5px solid var(--bd);border-radius:10px;padding:16px 18px;margin-bottom:12px}
+.tk.sel{border-color:var(--p);background:var(--pxl)}
+.tk.out{opacity:.55}
+.tk .tr{display:flex;justify-content:space-between;align-items:flex-start;gap:14px}
+.tk .tn{font-size:15.5px;font-weight:700}
+.row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;
+ border-top:1px solid var(--bd2);margin-top:10px}
+.row:first-of-type{border-top:0;margin-top:6px}
+.qty{display:flex;align-items:center;gap:10px}
+.qty button{width:30px;height:30px;border-radius:7px;border:1px solid var(--bd);background:#fff;
+ color:var(--p);font-size:16px;cursor:pointer;font-family:inherit;line-height:1}
+.qty button:hover{border-color:var(--p)}.qty button:disabled{color:var(--t3);cursor:not-allowed}
+.qty b{min-width:18px;text-align:center;font-weight:600}
+.inp{border:1px solid var(--bd);border-radius:8px;padding:10px 13px;font-size:13.5px;
+ background:#fff;color:var(--t1);width:100%;font-family:inherit}
+.inp:focus{outline:none;border-color:var(--p);box-shadow:0 0 0 3px rgba(107,92,240,.12)}
+.inp.err{border-color:var(--er);box-shadow:0 0 0 3px rgba(224,64,90,.1)}
+label{display:block;font-size:12px;font-weight:600;color:var(--t2);margin-bottom:5px}
+.fld{margin-bottom:14px}
+.msg{font-size:12px;margin-top:5px;display:none}.msg.on{display:block}
+.msg.e{color:var(--er)}.msg.s{color:var(--ok)}
+.rs{background:var(--card);border:1px solid var(--bd);border-radius:11px;padding:20px 22px;
+ position:sticky;top:86px}
+.rs h4{font-size:15px;font-weight:700;margin:0 0 16px}
+.ev{display:flex;gap:12px;align-items:center;padding-bottom:16px;border-bottom:1px solid var(--bd2)}
+.ev .th{width:50px;height:50px;border-radius:7px;flex:none;
+ background:linear-gradient(135deg,#7B5CF0,#D84A9B 55%,#F0A04A)}
+.li{display:flex;justify-content:space-between;gap:12px;font-size:13px;padding:7px 0}
+.li .l{color:var(--t2)}.li .v{font-weight:500;white-space:nowrap}
+.li.sep{border-top:1px solid var(--bd2);margin-top:9px;padding-top:13px}
+.li.disc .l,.li.disc .v{color:var(--ok);font-weight:600}
+.tot{display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid var(--bd);
+ margin-top:13px;padding-top:15px}
+.tot .l{font-size:15px;font-weight:700}
+.tot .v{font-size:25px;font-weight:800;color:var(--p);letter-spacing:-.02em}
+.safe{text-align:center;font-size:11.5px;color:var(--t3);margin-top:11px}
+.pm{display:flex;gap:12px;flex-wrap:wrap}
+.pmo{flex:1;min-width:140px;border:1.5px solid var(--bd);border-radius:9px;padding:14px 15px;
+ background:#fff;cursor:pointer}
+.pmo.sel{border-color:var(--p);background:var(--pxl);box-shadow:0 0 0 3px rgba(107,92,240,.09)}
+.pmo .ic{font-size:17px;margin-bottom:7px;display:block}
+.pmo .nn{font-size:13.5px;font-weight:600;display:block;margin-bottom:2px}
+.pmo .dd{font-size:11.5px;color:var(--t3);display:block}
+.ok-big{width:62px;height:62px;border-radius:50%;background:var(--ok);color:#fff;font-size:30px;
+ display:flex;align-items:center;justify-content:center;margin:0 auto 20px}
+.tkt{display:flex;background:var(--card);border:1px solid var(--bd);border-radius:11px;
+ overflow:hidden;margin-bottom:14px}
+.tkt .qr{width:140px;flex:none;border-right:1px dashed var(--bd);padding:16px;display:flex;
+ flex-direction:column;align-items:center;justify-content:center;gap:8px}
+.tkt .qr svg{width:96px;height:96px;fill:var(--t1)}
+.tkt .cd2{font-family:ui-monospace,monospace;font-size:10px;color:var(--t3)}
+.tkt .inf{flex:1;padding:18px 22px}
+.tkt .meta{display:flex;gap:22px;margin-top:10px;flex-wrap:wrap}
+.tkt .meta span{display:block;font-size:10.5px;color:var(--t3);text-transform:uppercase;
+ letter-spacing:.06em;font-weight:600;margin-bottom:2px}
+.tkt .meta b{font-size:13px;font-weight:600}
+.ovl{display:none;position:fixed;inset:0;background:rgba(26,27,46,.55);z-index:50;
+ align-items:center;justify-content:center;padding:20px}
+.ovl.on{display:flex}
+.modal{background:#fff;border-radius:14px;padding:28px 30px;max-width:430px;width:100%}
+.modal .warn{width:46px;height:46px;border-radius:50%;background:var(--erl);color:var(--er);
+ display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:16px}
+.modal h3{font-size:21px;margin:0 0 8px}
+.modal p{font-size:14px;color:var(--t2);margin:0 0 20px}
+.modal .acts{display:flex;gap:10px}.modal .acts .btn{flex:1}
+.sim{background:var(--wnl);border:1px solid #F0D9A8;border-radius:9px;padding:12px 15px;
+ margin-bottom:18px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.sim b{font-size:12.5px;color:var(--wn);font-weight:700}
+.sim button{border:1px solid #E3C79E;background:#fff;color:var(--wn);border-radius:6px;
+ padding:5px 11px;font-size:12.5px;cursor:pointer;font-family:inherit}
+.sim button.on{background:var(--wn);color:#fff;border-color:var(--wn)}
+.ft{border-top:1px solid var(--bd);background:#fff;padding:20px 34px;text-align:center;margin-top:40px}
+.ft p{margin:0;font-size:11.5px;color:var(--t3)}
+</style>
+
+<div class="nav">
+  <div class="logo"><span class="mk">▦</span>Bilhete<span class="pp">Pass</span></div>
+  <div class="lk"><span>Explorar</span><span>Como Funciona</span><span>Ajuda</span><span>Anuncie seu Evento</span></div>
+  <div class="rt"><span>⌕</span><span onclick="ir('tickets')" style="cursor:pointer" title="Meus ingressos">♡</span>
+    <span class="av"></span><span class="nm">Lucas Silva</span></div>
+</div>
+
+<!-- 1 EVENTO -->
+<div class="scr on" id="s-evento">
+  <div class="hero">
+    <div class="tags" style="margin-bottom:12px"><span style="background:rgba(255,255,255,.3)">FESTIVAL NACIONAL</span></div>
+    <h2>Aura Music Festival 2024</h2>
+    <div class="tags"><span>🗓 Sábado, 16 de Novembro · 16:00h</span><span>📍 Arena Allianz, São Paulo - SP</span><span>🔞 Classificação: 18 anos</span></div>
+  </div>
+  <div class="body">
+    <div class="cols">
+      <div>
+        <h1 class="pg" style="font-size:22px">Ingressos Disponíveis</h1>
+        <p class="sub">Meia-entrada disponível na seleção de quantidade</p>
+        <div class="tk"><div class="tr"><div>
+          <div class="tn">Pista Solidária <span class="pill lote">Lote 2</span></div>
+          <p class="mut" style="margin:6px 0 0">Acesso ao setor de pista principal. Desconto de meia-entrada mediante doação de 1kg de alimento.</p>
+        </div><div style="text-align:right;flex:none"><div class="sm">Preço atual</div>
+          <div style="font-size:22px;font-weight:800">R$ 180,00</div>
+          <button class="btn sm" style="margin-top:8px" onclick="ir('selecao')">Selecionar</button></div></div></div>
+        <div class="tk"><div class="tr"><div>
+          <div class="tn">Frontstage VIP <span class="pill wn">Mais procurado</span></div>
+          <p class="mut" style="margin:6px 0 0">Área reservada na frente do palco, com banheiros exclusivos e entrada preferencial.</p>
+        </div><div style="text-align:right;flex:none"><div class="sm">Preço atual</div>
+          <div style="font-size:22px;font-weight:800">R$ 360,00</div>
+          <button class="btn sm" style="margin-top:8px" onclick="ir('selecao')">Selecionar</button></div></div></div>
+        <div class="tk out"><div class="tr"><div>
+          <div class="tn">Camarote Open Bar <span class="pill er">Esgotado</span></div>
+          <p class="mut" style="margin:6px 0 0">Área elevada com vista panorâmica. Inclui open bar durante todo o evento.</p>
+        </div><div style="text-align:right;flex:none"><div class="sm">Preço atual</div>
+          <div style="font-size:22px;font-weight:800">R$ 350,00</div>
+          <button class="btn sm gr" style="margin-top:8px" disabled>Indisponível</button></div></div></div>
+      </div>
+      <div class="rs"><h4>Localização</h4>
+        <div style="height:120px;border-radius:8px;background:#E6E8F0;display:flex;align-items:center;
+          justify-content:center;color:var(--t3);font-size:12.5px;margin-bottom:14px">📍 São Paulo</div>
+        <b style="font-size:14px">Allianz Parque</b>
+        <p class="sm" style="margin:4px 0 0">Av. Francisco Matarazzo, 1705 — Água Branca, São Paulo - SP</p>
+        <div style="border-top:1px solid var(--bd2);margin-top:16px;padding-top:16px">
+          <h4 style="margin-bottom:10px">Organizado por</h4>
+          <div style="display:flex;gap:10px;align-items:center"><span class="av"></span>
+            <div><b style="font-size:13.5px">Aura Entertainment</b><div class="sm">128 eventos criados</div></div></div>
+        </div></div>
+    </div>
+  </div>
+</div>
+
+<!-- 2 SELECAO -->
+<div class="scr" id="s-selecao"><div class="body">
+  <span class="back" onclick="ir('evento')">‹ Voltar para o evento</span>
+  <div class="steps"><span class="st on"><span class="n">1</span>Quantidade</span><span class="ln"></span>
+    <span class="st"><span class="n">2</span>Identificação</span><span class="ln"></span>
+    <span class="st"><span class="n">3</span>Pagamento</span></div>
+  <h1 class="pg">Selecione seus ingressos</h1>
+  <p class="sub">Escolha a quantidade ideal de cada tipo para você e seus acompanhantes.</p>
+  <div class="cols"><div>
+    <div class="cd">
+      <div class="tn">Pista Solidária <span class="pill lote">Lote 2</span></div>
+      <p class="mut" style="margin:6px 0 0">Acesso ao setor de pista principal. Desconto de meia-entrada mediante doação de 1kg de alimento.</p>
+      <div class="row"><div><b>Inteira</b><div class="sm">R$ 180,00</div></div>
+        <div class="qty"><button onclick="qt('pi',-1)">−</button><b id="q-pi">0</b><button onclick="qt('pi',1)">+</button></div></div>
+      <div class="row"><div><b>Meia-Entrada / Solidária</b> <span class="pill ok">Meia</span><div class="sm" style="color:var(--p)">R$ 90,00</div></div>
+        <div class="qty"><button onclick="qt('pm',-1)">−</button><b id="q-pm">1</b><button onclick="qt('pm',1)">+</button></div></div>
+    </div>
+    <div class="cd">
+      <div class="tn">Frontstage VIP <span class="pill wn">Mais procurado</span></div>
+      <p class="mut" style="margin:6px 0 0">Área reservada na frente do palco principal, com entrada preferencial.</p>
+      <div class="row"><div><b>Inteira</b><div class="sm">R$ 360,00</div></div>
+        <div class="qty"><button onclick="qt('fi',-1)">−</button><b id="q-fi">0</b><button onclick="qt('fi',1)">+</button></div></div>
+      <div class="row"><div><b>Meia-Entrada</b> <span class="pill ok">Meia</span><div class="sm" style="color:var(--p)">R$ 180,00</div></div>
+        <div class="qty"><button onclick="qt('fm',-1)">−</button><b id="q-fm">1</b><button onclick="qt('fm',1)">+</button></div></div>
+    </div>
+    <div class="cd"><h3>Possui cupom de desconto?</h3>
+      <div style="display:flex;gap:10px;margin-top:10px;flex-wrap:wrap">
+        <input class="inp" id="cup" placeholder="AMIGO10" style="flex:1;min-width:180px">
+        <button class="btn" style="background:#1A1B2E" onclick="aplicarCupom()">Aplicar</button></div>
+      <div class="msg" id="cup-msg"></div>
+      <p class="sm" style="margin-top:10px">Para testar: <b>AMIGO10</b> válido · <b>LANCAMENTO20</b> limite atingido ·
+        <b>BLACKFRIDAY</b> expirado · <b>ESTUDANTE15</b> só vale para Pista Solidária</p>
+    </div>
+  </div><div id="rs1"></div></div>
+</div></div>
+
+<!-- 3 IDENTIFICACAO -->
+<div class="scr" id="s-ident"><div class="body">
+  <span class="back" onclick="ir('selecao')">‹ Voltar para seleção de ingressos</span>
+  <div class="steps"><span class="st dn"><span class="n">✓</span>Quantidade</span><span class="ln"></span>
+    <span class="st on"><span class="n">2</span>Identificação</span><span class="ln"></span>
+    <span class="st"><span class="n">3</span>Pagamento</span></div>
+  <h1 class="pg">Identificação dos participantes</h1>
+  <p class="sub">Informe os dados de quem irá utilizar cada ingresso. Os bilhetes nominais serão enviados para os respectivos e-mails.</p>
+  <div class="cols"><div id="ident-campos"></div><div id="rs2"></div></div>
+</div></div>
+
+<!-- 4 PAGAMENTO -->
+<div class="scr" id="s-pag"><div class="body">
+  <span class="back" onclick="ir('ident')">‹ Voltar para identificação</span>
+  <div class="steps"><span class="st dn"><span class="n">✓</span>Quantidade</span><span class="ln"></span>
+    <span class="st dn"><span class="n">✓</span>Identificação</span><span class="ln"></span>
+    <span class="st on"><span class="n">3</span>Pagamento</span></div>
+  <h1 class="pg">Forma de Pagamento</h1>
+  <p class="sub">Escolha como deseja realizar o pagamento do seu pedido.</p>
+  <div class="cols"><div>
+    <div class="cd"><h3>Escolha o método</h3>
+      <p class="mut" style="margin:0 0 16px">O pedido fica reservado por 15 minutos até a confirmação.</p>
+      <div class="pm">
+        <div class="pmo sel" id="pm-cartao" onclick="metodo('cartao')"><span class="ic">▭</span>
+          <span class="nn">Cartão de crédito</span><span class="dd">Aprovação imediata</span></div>
+        <div class="pmo" id="pm-pix" onclick="metodo('pix')"><span class="ic">◈</span>
+          <span class="nn">Pix</span><span class="dd">Expira em 30 minutos</span></div>
+        <div class="pmo" id="pm-boleto" onclick="metodo('boleto')"><span class="ic">▤</span>
+          <span class="nn">Boleto</span><span class="dd">Compensa em até 3 dias</span></div>
+      </div></div>
+    <div class="cd" id="cx-cartao"><h3>Dados do cartão</h3>
+      <p class="mut" style="margin:0 0 18px">Os dados são processados pela adquirente e não ficam armazenados.</p>
+      <div class="fld"><label>Número do cartão *</label><input class="inp" value="4539 •••• •••• 1234"></div>
+      <div class="fld"><label>Nome impresso no cartão *</label><input class="inp" value="LUCAS SILVA"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+        <div class="fld"><label>Validade *</label><input class="inp" value="12/28"></div>
+        <div class="fld"><label>CVV *</label><input class="inp" value="•••"></div></div>
+      <div class="fld"><label>CPF do titular *</label><input class="inp" value="123.456.789-00">
+        <p class="sm" style="margin-top:5px">Usado também para validar o limite de ingressos por pessoa neste evento.</p></div>
+    </div>
+    <div class="cd" id="cx-pix" style="display:none"><h3>Pagamento via Pix</h3>
+      <p class="mut">Escaneie o código no app do seu banco. O código expira em 30 minutos.</p>
+      <div style="width:170px;height:170px;background:#1A1B2E;border-radius:10px;margin:16px auto 0"></div></div>
+    <div class="cd" id="cx-boleto" style="display:none"><h3>Boleto bancário</h3>
+      <p class="mut">O boleto será gerado após a confirmação. A compensação leva até 3 dias úteis, e o ingresso só é emitido após o pagamento.</p></div>
+  </div><div id="rs3"></div></div>
+</div></div>
+
+<!-- 5 CONFIRMACAO -->
+<div class="scr" id="s-ok"><div class="body" style="max-width:620px;text-align:center;padding-top:60px">
+  <div class="ok-big">✓</div>
+  <h1 class="pg">Compra confirmada!</h1>
+  <p class="sub">Enviamos os ingressos para os e-mails informados. Eles também ficam disponíveis em Meus ingressos.</p>
+  <div class="cd" style="text-align:left" id="ok-resumo"></div>
+  <button class="btn full" onclick="ir('tickets')">Ver meus ingressos</button>
+  <p class="sm" style="margin-top:14px">Pedido <b>#BP-2024-8842</b></p>
+</div></div>
+
+<!-- 6 MEUS INGRESSOS -->
+<div class="scr" id="s-tickets"><div class="body">
+  <h1 class="pg">Meus ingressos</h1>
+  <p class="sub">Apresente o QR Code na entrada do evento. Cada ingresso vale uma única entrada.</p>
+  <div class="sim"><b>SIMULAR A DATA DE HOJE:</b>
+    <button class="on" id="d-27" onclick="setDias(27)">faltam 27 dias</button>
+    <button id="d-5" onclick="setDias(5)">faltam 5 dias</button>
+    <button id="d-1" onclick="setDias(1)">falta 1 dia</button>
+    <span class="sm">muda o valor do reembolso no cancelamento</span></div>
+  <div id="lista-tickets"></div>
+</div></div>
+
+<div class="ovl" id="ovl"><div class="modal">
+  <div class="warn">⚠</div><h3>Cancelar ingresso?</h3>
+  <p id="modal-txt"></p>
+  <div class="acts"><button class="btn gr" onclick="fechar()">Voltar</button>
+    <button class="btn dang" onclick="confirmarCancel()">Confirmar cancelamento</button></div>
+</div></div>
+
+<div class="ft"><p>BilhetePass Processadora de Ingressos S.A. CNPJ 00.000.000/0001-00</p>
+  <p style="margin-top:4px">© 2024 BilhetePass. Todos os direitos reservados.</p></div>
+
+<script>
+const PRECO={pi:180,pm:90,fi:360,fm:180};
+const NOME={pi:"Pista Solidária (Inteira)",pm:"Pista Solidária (Meia)",
+            fi:"Frontstage VIP (Inteira)",fm:"Frontstage VIP (Meia)"};
+const CUPONS={
+ AMIGO10:{tipo:"pct",valor:10,validade:"10/11/2024",usos:87,limite:200,aplica:null},
+ ESTUDANTE15:{tipo:"pct",valor:15,validade:"16/11/2024",usos:34,limite:100,aplica:["pi","pm"]},
+ LANCAMENTO20:{tipo:"pct",valor:20,validade:"30/09/2024",usos:150,limite:150,aplica:null},
+ BLACKFRIDAY:{tipo:"fixo",valor:50,validade:"29/11/2023",usos:42,limite:500,aplica:["fi","fm"],expirado:true}
+};
+let qtd={pi:0,pm:1,fi:0,fm:1}, cupom=null, dias=27, cancelando=null;
+let ingressos=[
+ {id:"BP-7F2K-9QX4",tipo:"pm",part:"Lucas Silva",mail:"lucas.silva@email.com",pago:81,st:"Válido"},
+ {id:"BP-3M8T-1LZ7",tipo:"fm",part:"Marina Alves",mail:"lucas.silva.convidado@email.com",pago:162,st:"Válido"}
+];
+const brl=n=>"R$ "+n.toFixed(2).replace(".",",");
+const subtotal=()=>Object.keys(qtd).reduce((s,k)=>s+qtd[k]*PRECO[k],0);
+function desconto(){
+  if(!cupom)return 0;
+  const c=CUPONS[cupom];
+  let base=c.aplica? c.aplica.reduce((s,k)=>s+qtd[k]*PRECO[k],0) : subtotal();
+  return c.tipo==="pct" ? base*c.valor/100 : Math.min(c.valor,base);
+}
+const total=()=>Math.max(0,subtotal()-desconto());
+function qt(k,d){ qtd[k]=Math.max(0,Math.min(6,qtd[k]+d)); document.getElementById("q-"+k).textContent=qtd[k]; render(); }
+function aplicarCupom(){
+  const cod=document.getElementById("cup").value.trim().toUpperCase();
+  const m=document.getElementById("cup-msg"), inp=document.getElementById("cup");
+  const c=CUPONS[cod]; cupom=null; m.className="msg on e"; inp.classList.add("err");
+  if(!c){ m.textContent="✕ Cupom não encontrado."; }
+  else if(c.expirado){ m.textContent="✕ Cupom expirado em "+c.validade+"."; }
+  else if(c.usos>=c.limite){ m.textContent="✕ Limite de usos atingido ("+c.usos+" de "+c.limite+")."; }
+  else if(c.aplica && !c.aplica.some(k=>qtd[k]>0)){
+    m.textContent="✕ Este cupom só é válido para Pista Solidária, que não está no seu pedido."; }
+  else { cupom=cod; m.className="msg on s"; inp.classList.remove("err");
+    m.textContent="✓ Cupom "+cod+" de "+(c.tipo==="pct"?c.valor+"%":brl(c.valor))+" aplicado com sucesso!"; }
+  render();
+}
+function resumo(btn,acao){
+  let itens=Object.keys(qtd).filter(k=>qtd[k]>0)
+    .map(k=>`<div class="li"><span class="l">${qtd[k]}x ${NOME[k]}</span><span class="v">${brl(qtd[k]*PRECO[k])}</span></div>`).join("");
+  if(!itens) itens='<div class="li"><span class="l">Nenhum ingresso selecionado</span><span class="v">—</span></div>';
+  const d=desconto();
+  return `<div class="rs"><h4>Resumo da compra</h4>
+   <div class="ev"><span class="th"></span><div><b style="font-size:13.5px;display:block">Aura Music Festival 2024</b>
+     <span class="sm">16 de Nov · Arena Allianz</span></div></div>
+   <div style="padding-top:12px">${itens}
+     <div class="li sep"><span class="l">Subtotal</span><span class="v">${brl(subtotal())}</span></div>
+     ${d>0?`<div class="li disc"><span class="l">◇ ${cupom}</span><span class="v">− ${brl(d)}</span></div>`:""}
+     <div class="li"><span class="l">Taxa de serviço</span><span class="v">R$ 0,00</span></div></div>
+   <div class="tot"><span class="l">Total</span><span class="v">${brl(total())}</span></div>
+   <button class="btn full" ${subtotal()===0?"disabled":""} onclick="${acao}">${btn}</button>
+   <p class="safe">🔒 Compra 100% segura e garantida</p></div>`;
+}
+function camposIdent(){
+  const ks=[]; Object.keys(qtd).forEach(k=>{for(let i=0;i<qtd[k];i++)ks.push(k);});
+  if(!ks.length) return '<div class="cd"><p class="mut">Nenhum ingresso selecionado.</p></div>';
+  return ks.map((k,i)=>`<div class="cd">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px">
+      <div><b style="font-size:15px">${i+1}. Ingresso ${i+1} — ${NOME[k]}</b>
+        <div class="sm" style="margin-top:3px">Lote 2 · Setor Pista Principal</div></div>
+      <span class="pill lote">Nominativo</span></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px">
+      <div class="fld" style="margin:0"><label>Nome Completo *</label>
+        <input class="inp nome" id="n${i}" value="${i===0?"Lucas Silva":""}" oninput="checarNomes()">
+        <div class="msg e" id="n${i}-msg">⚠ Este nome já foi usado em outro ingresso deste pedido</div></div>
+      <div class="fld" style="margin:0"><label>E-mail *</label>
+        <input class="inp" value="${i===0?"lucas.silva@email.com":""}"></div></div></div>`).join("");
+}
+function checarNomes(){
+  const ns=[...document.querySelectorAll(".nome")];
+  const vistos={}; let erro=false;
+  ns.forEach((el,i)=>{
+    const v=el.value.trim().toLowerCase(); const m=document.getElementById("n"+i+"-msg");
+    if(v && vistos[v]!==undefined){ el.classList.add("err"); m.classList.add("on"); erro=true; }
+    else{ el.classList.remove("err"); m.classList.remove("on"); if(v)vistos[v]=i; }
+  });
+  return !erro;
+}
+function render(){
+  document.getElementById("rs1").innerHTML=resumo("Ir para pagamento","irIdent()");
+  document.getElementById("rs2").innerHTML=resumo("Continuar para pagamento","irPag()");
+  document.getElementById("rs3").innerHTML=resumo("Finalizar compra","finalizar()");
+  Object.keys(qtd).forEach(k=>{const e=document.getElementById("q-"+k); if(e)e.textContent=qtd[k];});
+}
+function irIdent(){ document.getElementById("ident-campos").innerHTML=camposIdent(); render(); ir("ident"); }
+function irPag(){ if(!checarNomes()){alert("Corrija os participantes repetidos antes de continuar.");return;} ir("pag"); }
+function metodo(m){ ["cartao","pix","boleto"].forEach(x=>{
+  document.getElementById("pm-"+x).classList.toggle("sel",x===m);
+  document.getElementById("cx-"+x).style.display = x===m?"block":"none"; }); }
+function finalizar(){
+  document.getElementById("ok-resumo").innerHTML=
+    `<div class="li"><span class="l">Aura Music Festival 2024</span><span class="v">16/11/2024</span></div>
+     <div class="li"><span class="l">Ingressos</span><span class="v">${Object.values(qtd).reduce((a,b)=>a+b,0)}</span></div>
+     ${cupom?`<div class="li disc"><span class="l">Cupom ${cupom}</span><span class="v">− ${brl(desconto())}</span></div>`:""}
+     <div class="tot"><span class="l">Total pago</span><span class="v">${brl(total())}</span></div>`;
+  ir("ok");
+}
+const QR=(s)=>{let r='',sd=s;for(let y=0;y<21;y++)for(let x=0;x<21;x++){
+  sd=(sd*1103515245+12345)&0x7fffffff; const f=(x<7&&y<7)||(x>13&&y<7)||(x<7&&y>13);
+  const on=f?((x%6===0||y%6===0)||(x>1&&x<5&&y>1&&y<5)||(x>15&&x<19&&y>1&&y<5)||(x>1&&x<5&&y>15&&y<19)):(sd%2===0);
+  if(on)r+=`<rect x="${x*5}" y="${y*5}" width="5" height="5"/>`;}
+  return `<svg viewBox="0 0 105 105" role="img" aria-label="QR Code do ingresso">${r}</svg>`;};
+function reembolso(pago){ return dias>7?pago : dias>=2?pago/2 : 0; }
+function setDias(d){ dias=d; ["27","5","1"].forEach(x=>document.getElementById("d-"+x).classList.toggle("on",x===String(d))); renderTickets(); }
+function renderTickets(){
+  document.getElementById("lista-tickets").innerHTML = ingressos.length? ingressos.map((t,i)=>`
+   <div class="tkt"><div class="qr">${QR(i+7)}<span class="cd2">${t.id}</span></div>
+    <div class="inf"><div style="font-size:16px;font-weight:700">${NOME[t.tipo]}
+      <span class="pill lote">Nominativo</span> <span class="pill ${t.st==="Válido"?"ok":"er"}">${t.st}</span></div>
+      <div class="sm" style="margin-top:4px">Aura Music Festival 2024 · 16/11/2024 · Arena Allianz</div>
+      <div class="meta">
+        <div><span>Participante</span><b>${t.part}</b></div>
+        <div><span>E-mail</span><b>${t.mail}</b></div>
+        <div><span>Valor pago</span><b>${brl(t.pago)}</b></div></div>
+      ${t.st==="Válido"?`<div style="display:flex;gap:9px;margin-top:16px;flex-wrap:wrap">
+        <button class="btn sm">Transferir ingresso</button>
+        <button class="btn sm gh">Baixar PDF</button>
+        <button class="btn sm gr" onclick="abrirCancel(${i})">Cancelar e reembolsar</button></div>`:
+        `<p class="sm" style="margin-top:14px;color:var(--er)">Ingresso cancelado. Reembolso processado.</p>`}
+    </div></div>`).join("") : '<div class="cd"><p class="mut">Você ainda não tem ingressos.</p></div>';
+}
+function abrirCancel(i){
+  cancelando=i; const t=ingressos[i]; const v=reembolso(t.pago);
+  const txt = dias>7 ? `Você receberá reembolso <b>integral de ${brl(v)}</b>, pois faltam mais de 7 dias para o evento.`
+    : dias>=2 ? `Você receberá reembolso de <b>50% — ${brl(v)}</b>, pois faltam entre 2 e 7 dias para o evento.`
+    : `<b>Não haverá reembolso</b>, pois falta menos de 2 dias para o evento.`;
+  document.getElementById("modal-txt").innerHTML=txt;
+  document.getElementById("ovl").classList.add("on");
+}
+function fechar(){ document.getElementById("ovl").classList.remove("on"); }
+function confirmarCancel(){ ingressos[cancelando].st="Cancelado"; fechar(); renderTickets(); }
+function ir(s){ document.querySelectorAll(".scr").forEach(e=>e.classList.remove("on"));
+  document.getElementById("s-"+s).classList.add("on"); scrollTo(0,0); }
+render(); renderTickets();
+</script>
