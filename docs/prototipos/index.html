@@ -1,0 +1,116 @@
+<title>Protótipos BilhetePass</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+:root{
+  --bg:#11141C; --panel:#191E29; --panel-2:#212838; --line:#2C3447;
+  --txt:#E6EBF2; --txt-2:#9BA7B8; --txt-3:#6B7889;
+  --roxo:#6B5CF0; --roxo-soft:#241F4D;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--txt);
+ font-family:"IBM Plex Sans",system-ui,sans-serif;font-size:15px;
+ -webkit-font-smoothing:antialiased;overflow:hidden}
+.app{display:grid;grid-template-columns:282px 1fr;height:100vh}
+@media(max-width:860px){.app{grid-template-columns:1fr;grid-template-rows:auto 1fr}
+ nav{max-height:38vh}}
+
+nav{background:var(--panel);border-right:1px solid var(--line);overflow-y:auto;padding:20px 0 30px}
+nav .brand{padding:0 20px 18px;border-bottom:1px solid var(--line);margin-bottom:16px}
+nav .brand b{display:block;font-size:17px;font-weight:600;letter-spacing:-.01em}
+nav .brand b span{color:var(--roxo)}
+nav .brand i{display:block;font-style:normal;font-size:11.5px;color:var(--txt-3);
+ margin-top:3px;font-family:"IBM Plex Mono",monospace}
+nav .grp{font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+ color:var(--txt-3);padding:16px 20px 7px}
+nav a{display:flex;gap:10px;align-items:baseline;padding:8px 20px;color:var(--txt-2);
+ text-decoration:none;font-size:13.5px;border-left:2px solid transparent;line-height:1.35}
+nav a .i{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--txt-3);flex:none}
+nav a:hover{background:var(--panel-2);color:var(--txt)}
+nav a.on{background:var(--roxo-soft);color:#fff;border-left-color:var(--roxo)}
+nav a.on .i{color:var(--roxo)}
+nav a:focus-visible{outline:2px solid var(--roxo);outline-offset:-2px}
+
+main{display:flex;flex-direction:column;min-width:0;overflow:hidden}
+.bar{display:flex;align-items:center;gap:14px;padding:14px 22px;
+ border-bottom:1px solid var(--line);background:var(--panel);flex-wrap:wrap}
+.bar .tt{font-size:16px;font-weight:600;flex:1 1 auto;min-width:140px}
+.bar .tt em{font-style:normal;color:var(--txt-3);font-weight:400;font-size:13px;
+ display:block;font-family:"IBM Plex Mono",monospace;margin-top:2px}
+.bar .cnt{font-family:"IBM Plex Mono",monospace;font-size:12.5px;color:var(--txt-3)}
+.bar button{background:var(--panel-2);border:1px solid var(--line);color:var(--txt);
+ border-radius:7px;padding:7px 14px;font-size:13.5px;cursor:pointer;font-family:inherit}
+.bar button:hover{background:var(--roxo);border-color:var(--roxo);color:#fff}
+.bar button:disabled{opacity:.35;cursor:default}
+.bar button:disabled:hover{background:var(--panel-2);border-color:var(--line);color:var(--txt)}
+.bar button:focus-visible{outline:2px solid var(--roxo);outline-offset:2px}
+
+.stage{flex:1;overflow:auto;padding:26px;display:flex;justify-content:center;align-items:flex-start}
+.stage img{max-width:100%;height:auto;border-radius:10px;
+ box-shadow:0 2px 6px rgba(0,0,0,.4),0 24px 60px -24px rgba(0,0,0,.8);display:block}
+.hint{text-align:center;font-size:12px;color:var(--txt-3);padding:0 0 14px;
+ font-family:"IBM Plex Mono",monospace}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="app">
+<nav id="nav" aria-label="Telas">
+  <div class="brand"><b>Bilhete<span>Pass</span></b><i>protótipos de alta fidelidade</i></div>
+</nav>
+<main>
+  <div class="bar">
+    <div class="tt"><span id="tt">—</span><em id="fn">—</em></div>
+    <span class="cnt"><span id="ix">1</span> / 11</span>
+    <button id="prev" type="button">← Anterior</button>
+    <button id="next" type="button">Próxima →</button>
+  </div>
+  <div class="stage"><img id="img" src="" alt=""></div>
+  <p class="hint">use as setas ← → do teclado para navegar</p>
+</main>
+</div>
+
+<script>
+const TELAS=[
+ {g:"1 · Organizador",n:"Criar evento",f:"criacao-de-evento.png"},
+ {g:"1 · Organizador",n:"Configuração de ingressos",f:"configuracao-de-ingressos.png"},
+ {g:"1 · Organizador",n:"Gerenciar cupons",f:"gerenciar-cupons.png"},
+ {g:"2 · Compra",n:"Página do evento",f:"detalhe-do-evento.png"},
+ {g:"2 · Compra",n:"Selecionar ingressos",f:"selecao-de-ingressos.png"},
+ {g:"2 · Compra",n:"Identificar participantes",f:"identificacao-de-participantes.png"},
+ {g:"2 · Compra",n:"Forma de pagamento",f:"checkout-pagamento.png"},
+ {g:"2 · Compra",n:"Compra confirmada",f:"confirmacao-compra.png"},
+ {g:"3 · Pós-compra",n:"Meus ingressos",f:"meus-ingressos.png"},
+ {g:"4 · Portaria",n:"Check-in aprovado",f:"checkin-participantes.png"},
+ {g:"4 · Portaria",n:"Check-in recusado",f:"checkin-estados-erro.png"}
+];
+const nav=document.getElementById("nav"),img=document.getElementById("img"),
+      tt=document.getElementById("tt"),fn=document.getElementById("fn"),
+      ix=document.getElementById("ix"),prev=document.getElementById("prev"),
+      next=document.getElementById("next");
+let atual=0, grupo="";
+TELAS.forEach((t,i)=>{
+  if(t.g!==grupo){grupo=t.g;const d=document.createElement("div");
+    d.className="grp";d.textContent=t.g;nav.appendChild(d);}
+  const a=document.createElement("a");a.href="#";a.dataset.i=i;
+  a.innerHTML='<span class="i">'+String(i+1).padStart(2,"0")+'</span><span>'+t.n+'</span>';
+  a.addEventListener("click",e=>{e.preventDefault();ir(i);});
+  nav.appendChild(a);
+});
+function ir(i){
+  atual=Math.max(0,Math.min(TELAS.length-1,i));
+  const t=TELAS[atual];
+  img.src=t.f; img.alt="Protótipo: "+t.n;
+  tt.textContent=t.n; fn.textContent=t.f; ix.textContent=atual+1;
+  prev.disabled=atual===0; next.disabled=atual===TELAS.length-1;
+  nav.querySelectorAll("a").forEach(a=>a.classList.toggle("on",+a.dataset.i===atual));
+  document.querySelector(".stage").scrollTop=0;
+}
+prev.addEventListener("click",()=>ir(atual-1));
+next.addEventListener("click",()=>ir(atual+1));
+addEventListener("keydown",e=>{
+  if(e.key==="ArrowLeft")ir(atual-1);
+  if(e.key==="ArrowRight")ir(atual+1);
+});
+ir(0);
+</script>
